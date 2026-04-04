@@ -22,6 +22,7 @@ To make the deck run silently on startup without leaving a black terminal window
 
 1. Create a new file in your project folder named `start_deck.vbs`.
 2. Paste the following code into it and **update the directory path**:
+3. Make a shortcut to this file and place it `shell:startup` folder
    ```vbscript
    Set objShell = CreateObject("Wscript.Shell")
    ' Update this to the exact path where you cloned the repository
