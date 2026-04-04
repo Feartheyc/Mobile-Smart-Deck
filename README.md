@@ -17,6 +17,10 @@ A custom, glassmorphism-styled local web dashboard to control your PC from your 
 5. Run the server: `python app.py`
 6. Open your phone's browser and go to your PC's IP address on port 5000 (e.g., `http://192.168.1.15:5000`).
 
+## 💻 Compatibility
+* **Host PC:** Windows 10 / 11 (Relies on Windows SDK and NirCmd for system controls).
+* **Remote Device:** Any OS with a modern web browser (iOS, Android, iPadOS, etc.).
+
 ## ⚙️ Run Automatically in Background (Windows)
 To make the deck run silently on startup without leaving a black terminal window open on your taskbar:
 
