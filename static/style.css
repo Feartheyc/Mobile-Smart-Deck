@@ -1,0 +1,241 @@
+/* --- TOKYO NIGHT COLOR PALETTE --- */
+:root {
+    --bg-dark: #1a1b26;      
+    --bg-panel: rgba(36, 40, 59, 0.4); 
+    --text-main: #c0caf5;    
+    
+    --tokyo-pink: #f7768e;
+    --tokyo-orange: #ff9e64;
+    --tokyo-yellow: #e0af68;
+    --tokyo-green: #9ece6a;
+    --tokyo-teal: #73daca;
+    --tokyo-cyan: #2ac3de;
+    --tokyo-blue: #7aa2f7;
+    --tokyo-purple: #bb9af7;
+    
+    --panel-border: rgba(192, 202, 245, 0.15); 
+}
+
+/* --- BASE STYLES --- */
+body {
+    background: radial-gradient(circle at center, #24283b 0%, var(--bg-dark) 100%);
+    color: var(--text-main);
+    font-family: 'Pixelify Sans', sans-serif;
+    margin: 0;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+#dashboard {
+    width: 100%;
+    max-width: 1100px;
+    height: 90vh;
+    position: relative;
+}
+
+/* --- PAGE MANAGEMENT --- */
+.page {
+    display: none; /* Hidden by default */
+    grid-template-columns: 1fr 1.2fr; 
+    grid-template-rows: 1fr auto;
+    gap: 25px;
+    width: 100%;
+    height: 100%;
+}
+
+.page.active {
+    display: grid; /* Becomes a grid when active */
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- THE GLASS PANELS --- */
+.panel {
+    border: 1px solid var(--panel-border);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    position: relative;
+    background-color: var(--bg-panel); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* --- PAGE 1 LAYOUT --- */
+.system-panel { flex-direction: column; }
+.music-panel { flex-direction: column; justify-content: center; align-items: center; gap: 15px; }
+.app-panel { grid-column: 1 / span 2; flex-direction: row; justify-content: space-between; align-items: center; gap: 15px; padding: 25px; }
+
+/* --- PAGE 2 LAYOUT (Discord Grid) --- */
+.discord-grid {
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for big, chunky buttons */
+    grid-template-rows: repeat(2, 1fr);
+    gap: 25px;
+    padding: 30px;
+}
+
+.disc-btn {
+    flex-direction: column;
+    gap: 15px;
+    border-color: var(--tokyo-purple);
+    font-size: 3.5rem; /* Massive icons */
+    background-color: rgba(187, 154, 247, 0.05);
+}
+
+.disc-btn span {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: var(--tokyo-purple);
+}
+
+.disc-btn:hover {
+    box-shadow: 0 0 30px rgba(187, 154, 247, 0.2);
+    background-color: rgba(187, 154, 247, 0.1);
+}
+
+/* --- UNIVERSAL BUTTON STYLES --- */
+.button {
+    background-color: rgba(26, 27, 38, 0.6);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    color: var(--text-main);
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.button:hover { 
+    background-color: #292e42; 
+    border-color: rgba(255, 255, 255, 0.3); 
+    transform: translateY(-2px);
+}
+
+.button:active { 
+    transform: scale(0.92) translateY(2px); 
+    background-color: var(--text-main); 
+    color: var(--bg-dark); 
+}
+
+/* --- FLOATING PAGE TOGGLE --- */
+.page-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 65px;
+    height: 65px;
+    background: var(--bg-panel);
+    border: 1px solid var(--tokyo-cyan);
+    border-radius: 50%;
+    color: var(--tokyo-cyan);
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(42, 195, 222, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.page-toggle:hover {
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 0 30px rgba(42, 195, 222, 0.4);
+}
+
+/* --- CLOCK, STATS, MUSIC (Page 1) --- */
+.time-weather { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+#clock { font-size: 5.5rem; letter-spacing: 4px; white-space: nowrap; text-shadow: 0 0 20px rgba(192, 202, 245, 0.3); }
+.weather { font-size: 1.8rem; color: var(--tokyo-cyan); }
+
+.stats-row { display: flex; gap: 15px; width: 100%; }
+.stat-btn { flex: 1; padding: 15px; flex-direction: column; border-color: rgba(115, 218, 202, 0.3); }
+.stat-btn .val { font-size: 2.4rem; color: var(--tokyo-green); margin-top: 8px; }
+
+.cover-art { width: 240px; height: 240px; border: 2px solid rgba(247, 118, 142, 0.6); border-radius: 12px; overflow: hidden; }
+.cover-art img { width: 100%; height: 100%; object-fit: cover; }
+
+.seek-wrapper { width: 90%; display: flex; align-items: center; gap: 12px; margin-top: 10px; font-size: 1.4rem; }
+.seek-bar { flex-grow: 1; height: 8px; background-color: rgba(255, 255, 255, 0.05); border-radius: 4px; overflow: hidden; }
+#seek-fill { height: 100%; background-color: var(--tokyo-pink); box-shadow: 0 0 15px var(--tokyo-pink); transition: width 1s linear; }
+
+.media-row { display: flex; gap: 20px; width: 85%; justify-content: center; margin-top: 10px; }
+.media-btn { width: 70px; height: 70px; border-radius: 50%; border-color: rgba(187, 154, 247, 0.3); font-size: 2rem; }
+.media-btn.play { flex-grow: 1; border-radius: 16px; border-color: rgba(158, 206, 106, 0.5); color: var(--tokyo-green); font-size: 2.5rem; }
+
+.circle-btn { position: absolute; top: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; border-color: rgba(224, 175, 104, 0.5); color: var(--tokyo-yellow); }
+
+.app-btn { flex: 1; aspect-ratio: 1 / 1; font-size: 3rem; }
+.app-btn:hover { box-shadow: 0 0 20px currentColor; background-color: #24283b; }
+
+/* --- MOBILE PORTRAIT (Vertical Mode) --- */
+@media (max-width: 800px) and (orientation: portrait) {
+    body { padding: 10px !important; overflow-y: auto !important; }
+    #dashboard, .page, .page.active { display: flex !important; flex-direction: column !important; height: auto !important; gap: 15px; }
+    #clock { font-size: 4rem; }
+    .cover-art { width: 180px; height: 180px; }
+    .app-panel { flex-wrap: wrap !important; padding: 15px; }
+    .app-btn { flex: 0 0 28% !important; min-width: 70px; font-size: 2.2rem; }
+    .discord-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* --- MOBILE LANDSCAPE (Stream Deck Mode) --- */
+@media (max-height: 600px) and (orientation: landscape) {
+    body { 
+        padding: 10px !important; 
+        overflow: hidden !important; /* Locks screen to prevent scrolling */
+    }
+    
+    #dashboard { 
+        gap: 12px !important; 
+        height: 95vh !important;
+        /* Keep the 2-column grid, but make sure it fits the screen */
+        grid-template-rows: 1fr auto !important; 
+    }
+
+    .panel { padding: 12px !important; border-radius: 12px !important; }
+
+    /* Shrink the Top Row (System & Music) */
+    #clock { font-size: 3.5rem !important; margin-bottom: 5px !important; }
+    .weather { font-size: 1.2rem !important; }
+    .stat-btn { padding: 8px !important; font-size: 1rem !important; }
+    .stat-btn .val { font-size: 1.5rem !important; margin-top: 4px !important; }
+
+    /* Shrink Music Panel to save vertical height */
+    .music-panel { gap: 8px !important; }
+    .cover-art { width: 110px !important; height: 110px !important; border-width: 1px !important; }
+    .seek-wrapper { font-size: 1rem !important; margin-top: 0 !important; }
+    .media-row { gap: 10px !important; width: 90% !important; margin-top: 0 !important; }
+    .media-btn { width: 50px !important; height: 50px !important; font-size: 1.4rem !important; }
+    .media-btn.play { font-size: 1.8rem !important; height: 50px !important; }
+    .circle-btn { top: 10px !important; right: 10px !important; width: 40px !important; height: 40px !important; font-size: 1.2rem !important; }
+
+    /* Flatten the App Row */
+    .app-panel { padding: 15px !important; gap: 10px !important; }
+    .app-btn { font-size: 2rem !important; border-radius: 10px !important; }
+
+    /* Discord Grid Adjustments */
+    .discord-grid { padding: 15px !important; gap: 15px !important; }
+    .disc-btn { font-size: 2.5rem !important; padding: 10px !important; gap: 5px !important; }
+    .disc-btn span { font-size: 1rem !important; }
+
+    /* Tuck the Toggle Button into the corner */
+    .page-toggle { bottom: 15px !important; right: 15px !important; width: 50px !important; height: 50px !important; font-size: 1.4rem !important; }
+}

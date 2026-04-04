@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Custom Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+
+    <link rel="stylesheet" href="/static/style.css?v=3">
+</head>
+
+<body>
+    <div id="dashboard">
+        
+        <div id="page-1" class="page active">
+            <div class="panel system-panel">
+                <div class="time-weather">
+                    <div id="clock">--:--</div>
+                    <div class="weather">Mumbai: <span id="temp">--</span>°C</div>
+                </div>
+
+                <div class="stats-row">
+                    <button class="button stat-btn">RAM <br><span id="ram" class="val">--%</span></button>
+                    <button class="button stat-btn">CPU <br><span id="cpu" class="val">--%</span></button>
+                    <button class="button stat-btn">GPU <br><span id="gpu" class="val">--%</span></button>
+                </div>
+            </div>
+
+            <div class="panel music-panel">
+                <button class="button circle-btn" onclick="sendCommand('switch_audio')">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+
+                <div class="cover-art">
+                    <img id="cover-img" src="" alt="Cover">
+                </div>
+
+                <div class="seek-wrapper">
+                    <span id="time-current">0:00</span>
+                    <div class="seek-bar">
+                        <div id="seek-fill"></div>
+                    </div>
+                    <span id="time-total">0:00</span>
+                </div>
+
+                <div class="media-row">
+                    <button class="button media-btn" onclick="sendCommand('media_prev')">
+                        <i class="fa-solid fa-backward-step"></i>
+                    </button>
+                    <button class="button media-btn play" onclick="sendCommand('media_play')">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <button class="button media-btn" onclick="sendCommand('media_next')">
+                        <i class="fa-solid fa-forward-step"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel app-panel">
+                <button class="button app-btn" style="border-color: var(--tokyo-blue); color: var(--tokyo-blue);" onclick="sendCommand('launch_discord')">
+                    <i class="fa-brands fa-discord"></i>
+                </button>
+
+                <button class="button app-btn" style="border-color: var(--tokyo-orange); color: var(--tokyo-orange);" onclick="sendCommand('launch_brave')">
+                    <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/brave.svg" alt="Brave" style="width: 50%; height: 50%; object-fit: contain; filter: invert(75%) sepia(50%) saturate(2000%) hue-rotate(320deg) brightness(100%) contrast(105%);">
+                </button>
+
+                <button class="button app-btn" style="border-color: var(--tokyo-pink); color: var(--tokyo-pink);" onclick="sendCommand('launch_whatsapp')">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </button>
+
+                <button class="button app-btn" style="border-color: var(--tokyo-purple); color: var(--tokyo-purple);" onclick="sendCommand('launch_explorer')">
+                    <i class="fa-solid fa-folder"></i>
+                </button>
+
+                <button class="button app-btn" style="border-color: var(--tokyo-green); color: var(--tokyo-green);" onclick="sendCommand('launch_terminal')">
+                    <i class="fa-solid fa-terminal"></i>
+                </button>
+
+                <button class="button app-btn" style="border-color: var(--tokyo-yellow); color: var(--tokyo-yellow);" onclick="sendCommand('launch_steam')">
+                    <i class="fa-brands fa-steam"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="page-2" class="page">
+            <div class="panel discord-grid">
+                <button class="button disc-btn" onclick="sendCommand('discord_mute')">
+                    <i class="fa-solid fa-microphone-slash"></i>
+                    <span>MUTE</span>
+                </button>
+                <button class="button disc-btn" onclick="sendCommand('discord_deafen')">
+                    <i class="fa-solid fa-ear-deafen"></i>
+                    <span>DEAFEN</span>
+                </button>
+                <button class="button disc-btn" onclick="sendCommand('discord_screen')">
+                    <i class="fa-solid fa-desktop"></i>
+                    <span>SCREEN</span>
+                </button>
+                <button class="button disc-btn" onclick="sendCommand('discord_ptt')">
+                    <i class="fa-solid fa-walkie-talkie"></i>
+                    <span>PTT</span>
+                </button>
+            </div>
+        </div>
+
+        <button class="page-toggle" onclick="togglePage()">
+            <i class="fa-solid fa-layer-group"></i>
+        </button>
+
+    </div>
+
+    <button class="page-toggle" style="right: 110px;" onclick="toggleFullScreen()">
+            <i class="fa-solid fa-expand"></i>
+    </button>
+
+    <script>
+        const socket = io();
+        function sendCommand(action) { socket.emit('button_pressed', action); }
+
+        // Page Toggling Logic
+        function togglePage() {
+            document.getElementById('page-1').classList.toggle('active');
+            document.getElementById('page-2').classList.toggle('active');
+        }
+
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }, 1000);
+
+        function formatTime(seconds) {
+            if (!seconds || isNaN(seconds)) return "0:00";
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        socket.on('update_ui', function (data) {
+            document.getElementById('cpu').innerText = data.cpu + '%';
+            document.getElementById('ram').innerText = data.ram + '%';
+            document.getElementById('temp').innerText = data.temp;
+            if (data.cover_art) document.getElementById('cover-img').src = data.cover_art;
+
+            // Update Seek Bar
+            document.getElementById('time-current').innerText = formatTime(data.track_pos);
+            document.getElementById('time-total').innerText = formatTime(data.track_dur);
+
+            let progressPct = 0;
+            if (data.track_dur > 0) {
+                progressPct = (data.track_pos / data.track_dur) * 100;
+            }
+            document.getElementById('seek-fill').style.width = progressPct + '%';
+        });
+    </script>
+</body>
+</html>
