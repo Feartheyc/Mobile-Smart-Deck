@@ -9,6 +9,8 @@ A custom, glassmorphism-styled local web dashboard to control your PC from your 
 * **Discord Integration:** Global hotkeys for Mute, Deafen, and Screen Share.
 * **Audio Switcher:** Instantly toggle between headphones and speakers.
 
+[![Support me on Gumroad](https://img.shields.io/badge/Support_me_on-Gumroad-e87dc3?style=for-the-badge&logo=gumroad&logoColor=white)](https://yuvrajchavan0.gumroad.com/l/jmrlug)
+
 ## Installation
 1. Clone the repository.
 2. Install dependencies: `pip install -r requirements.txt`
