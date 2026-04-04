@@ -89,11 +89,9 @@ def handle_button(action):
     
     # Page 1: App Launchers
     if action == 'launch_discord':
-        #UPDATE THIS PATH to your local Discord installation
-        subprocess.Popen(r"")
+        subprocess.Popen(r"C:\Users\YUVRAJ\AppData\Local\Discord\Update.exe --processStart Discord.exe")
     elif action == 'launch_brave':
-        #UPDATE THIS PATH to your local Brave or any browser's installation
-        subprocess.Popen(r"")
+        subprocess.Popen(r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe")
     elif action == 'launch_whatsapp':
         subprocess.Popen(["cmd", "/c", "start", "https://web.whatsapp.com"], shell=True)
     elif action == 'launch_explorer':

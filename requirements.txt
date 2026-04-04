@@ -1,0 +1,14 @@
+# --- Web Server & Sockets ---
+Flask==3.0.3
+Werkzeug==3.0.2
+Flask-SocketIO==5.3.6
+python-socketio==5.11.2
+python-engineio==4.9.1
+
+# --- System & API Fetching ---
+psutil==5.9.8
+requests==2.31.0
+
+# --- Windows & Automation ---
+winsdk==1.0.0.post9
+PyAutoGUI==0.9.54
