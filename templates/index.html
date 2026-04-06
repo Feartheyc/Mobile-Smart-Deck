@@ -3,18 +3,18 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Custom Dashboard</title>
+    <title>Tokyo Night Smart Deck</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
 
-    <link rel="stylesheet" href="/static/style.css?v=3">
+    <link rel="stylesheet" href="/static/style.css?v=6">
 </head>
 
 <body>
     <div id="dashboard">
-        
+
         <div id="page-1" class="page active">
             <div class="panel system-panel">
                 <div class="time-weather">
@@ -30,10 +30,6 @@
             </div>
 
             <div class="panel music-panel">
-                <button class="button circle-btn" onclick="sendCommand('switch_audio')">
-                    <i class="fa-solid fa-volume-high"></i>
-                </button>
-
                 <div class="cover-art">
                     <img id="cover-img" src="" alt="Cover">
                 </div>
@@ -60,27 +56,35 @@
             </div>
 
             <div class="panel app-panel">
-                <button class="button app-btn" style="border-color: var(--tokyo-blue); color: var(--tokyo-blue);" onclick="sendCommand('launch_discord')">
+                <button class="button app-btn" style="border-color: var(--tokyo-blue); color: var(--tokyo-blue);"
+                    onclick="sendCommand('launch_discord')">
                     <i class="fa-brands fa-discord"></i>
                 </button>
 
-                <button class="button app-btn" style="border-color: var(--tokyo-orange); color: var(--tokyo-orange);" onclick="sendCommand('launch_brave')">
-                    <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/brave.svg" alt="Brave" style="width: 50%; height: 50%; object-fit: contain; filter: invert(75%) sepia(50%) saturate(2000%) hue-rotate(320deg) brightness(100%) contrast(105%);">
+                <button class="button app-btn" style="border-color: var(--tokyo-orange); color: var(--tokyo-orange);"
+                    onclick="sendCommand('launch_brave')">
+                    <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/brave.svg"
+                        alt="Brave"
+                        style="width: 50%; height: 50%; object-fit: contain; filter: invert(75%) sepia(50%) saturate(2000%) hue-rotate(320deg) brightness(100%) contrast(105%);">
                 </button>
 
-                <button class="button app-btn" style="border-color: var(--tokyo-pink); color: var(--tokyo-pink);" onclick="sendCommand('launch_whatsapp')">
+                <button class="button app-btn" style="border-color: var(--tokyo-pink); color: var(--tokyo-pink);"
+                    onclick="sendCommand('launch_whatsapp')">
                     <i class="fa-brands fa-whatsapp"></i>
                 </button>
 
-                <button class="button app-btn" style="border-color: var(--tokyo-purple); color: var(--tokyo-purple);" onclick="sendCommand('launch_explorer')">
+                <button class="button app-btn" style="border-color: var(--tokyo-purple); color: var(--tokyo-purple);"
+                    onclick="sendCommand('launch_explorer')">
                     <i class="fa-solid fa-folder"></i>
                 </button>
 
-                <button class="button app-btn" style="border-color: var(--tokyo-green); color: var(--tokyo-green);" onclick="sendCommand('launch_terminal')">
+                <button class="button app-btn" style="border-color: var(--tokyo-green); color: var(--tokyo-green);"
+                    onclick="sendCommand('launch_terminal')">
                     <i class="fa-solid fa-terminal"></i>
                 </button>
 
-                <button class="button app-btn" style="border-color: var(--tokyo-yellow); color: var(--tokyo-yellow);" onclick="sendCommand('launch_steam')">
+                <button class="button app-btn" style="border-color: var(--tokyo-yellow); color: var(--tokyo-yellow);"
+                    onclick="sendCommand('launch_steam')">
                     <i class="fa-brands fa-steam"></i>
                 </button>
             </div>
@@ -107,21 +111,23 @@
             </div>
         </div>
 
-        <button class="page-toggle" onclick="togglePage()">
+        <button id="btn-page" class="page-toggle" onclick="togglePage()">
             <i class="fa-solid fa-layer-group"></i>
+        </button>
+
+        <button id="btn-fs" class="page-toggle" onclick="toggleFullScreen()">
+            <i class="fa-solid fa-expand"></i>
         </button>
 
     </div>
 
-    <button class="page-toggle" style="right: 110px;" onclick="toggleFullScreen()">
-            <i class="fa-solid fa-expand"></i>
-    </button>
-
     <script>
         const socket = io();
-        function sendCommand(action) { socket.emit('button_pressed', action); }
 
-        // Page Toggling Logic
+        function sendCommand(action) { 
+            socket.emit('button_pressed', action); 
+        }
+
         function togglePage() {
             document.getElementById('page-1').classList.toggle('active');
             document.getElementById('page-2').classList.toggle('active');
@@ -141,7 +147,7 @@
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
-                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                    console.log(`Fullscreen error: ${err.message}`);
                 });
             } else {
                 if (document.exitFullscreen) {
@@ -153,10 +159,13 @@
         socket.on('update_ui', function (data) {
             document.getElementById('cpu').innerText = data.cpu + '%';
             document.getElementById('ram').innerText = data.ram + '%';
+            document.getElementById('gpu').innerText = data.gpu + '%';
             document.getElementById('temp').innerText = data.temp;
-            if (data.cover_art) document.getElementById('cover-img').src = data.cover_art;
+            
+            if (data.cover_art) {
+                document.getElementById('cover-img').src = data.cover_art;
+            }
 
-            // Update Seek Bar
             document.getElementById('time-current').innerText = formatTime(data.track_pos);
             document.getElementById('time-total').innerText = formatTime(data.track_dur);
 
@@ -168,4 +177,5 @@
         });
     </script>
 </body>
+
 </html>

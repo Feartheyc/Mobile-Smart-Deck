@@ -40,7 +40,7 @@ body {
 
 /* --- PAGE MANAGEMENT --- */
 .page {
-    display: none; /* Hidden by default */
+    display: none; 
     grid-template-columns: 1fr 1.2fr; 
     grid-template-rows: 1fr auto;
     gap: 25px;
@@ -49,7 +49,7 @@ body {
 }
 
 .page.active {
-    display: grid; /* Becomes a grid when active */
+    display: grid; 
     animation: fadeIn 0.3s ease-out;
 }
 
@@ -81,7 +81,7 @@ body {
     grid-column: 1 / span 2;
     grid-row: 1 / span 2;
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns for big, chunky buttons */
+    grid-template-columns: repeat(2, 1fr); 
     grid-template-rows: repeat(2, 1fr);
     gap: 25px;
     padding: 30px;
@@ -91,7 +91,7 @@ body {
     flex-direction: column;
     gap: 15px;
     border-color: var(--tokyo-purple);
-    font-size: 3.5rem; /* Massive icons */
+    font-size: 3.5rem; 
     background-color: rgba(187, 154, 247, 0.05);
 }
 
@@ -133,11 +133,10 @@ body {
     color: var(--bg-dark); 
 }
 
-/* --- FLOATING PAGE TOGGLE --- */
+/* --- FLOATING PAGE TOGGLES --- */
 .page-toggle {
     position: fixed;
     bottom: 30px;
-    right: 30px;
     width: 65px;
     height: 65px;
     background: var(--bg-panel);
@@ -160,6 +159,10 @@ body {
     box-shadow: 0 0 30px rgba(42, 195, 222, 0.4);
 }
 
+/* CUSTOM BUTTON PLACEMENT (PC) */
+#btn-page { right: 30px; }
+#btn-fs { right: 110px; }
+
 /* --- CLOCK, STATS, MUSIC (Page 1) --- */
 .time-weather { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 #clock { font-size: 5.5rem; letter-spacing: 4px; white-space: nowrap; text-shadow: 0 0 20px rgba(192, 202, 245, 0.3); }
@@ -180,17 +183,19 @@ body {
 .media-btn { width: 70px; height: 70px; border-radius: 50%; border-color: rgba(187, 154, 247, 0.3); font-size: 2rem; }
 .media-btn.play { flex-grow: 1; border-radius: 16px; border-color: rgba(158, 206, 106, 0.5); color: var(--tokyo-green); font-size: 2.5rem; }
 
-.circle-btn { position: absolute; top: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; border-color: rgba(224, 175, 104, 0.5); color: var(--tokyo-yellow); }
-
 .app-btn { flex: 1; aspect-ratio: 1 / 1; font-size: 3rem; }
 .app-btn:hover { box-shadow: 0 0 20px currentColor; background-color: #24283b; }
 
 /* --- MOBILE PORTRAIT (Vertical Mode) --- */
 @media (max-width: 800px) and (orientation: portrait) {
     body { padding: 10px !important; overflow-y: auto !important; }
-    #dashboard, .page, .page.active { display: flex !important; flex-direction: column !important; height: auto !important; gap: 15px; }
+    
+    /* Removed '.page' so Page 2 stays hidden properly */
+    #dashboard, .page.active { display: flex !important; flex-direction: column !important; height: auto !important; gap: 15px; }
+    
     #clock { font-size: 4rem; }
     .cover-art { width: 180px; height: 180px; }
+    
     .app-panel { flex-wrap: wrap !important; padding: 15px; }
     .app-btn { flex: 0 0 28% !important; min-width: 70px; font-size: 2.2rem; }
     .discord-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; }
@@ -198,44 +203,32 @@ body {
 
 /* --- MOBILE LANDSCAPE (Stream Deck Mode) --- */
 @media (max-height: 600px) and (orientation: landscape) {
-    body { 
-        padding: 10px !important; 
-        overflow: hidden !important; /* Locks screen to prevent scrolling */
-    }
+    body { padding: 10px !important; overflow: hidden !important; }
     
-    #dashboard { 
-        gap: 12px !important; 
-        height: 95vh !important;
-        /* Keep the 2-column grid, but make sure it fits the screen */
-        grid-template-rows: 1fr auto !important; 
-    }
-
+    #dashboard { gap: 12px !important; height: 95vh !important; grid-template-rows: 1fr auto !important; }
     .panel { padding: 12px !important; border-radius: 12px !important; }
 
-    /* Shrink the Top Row (System & Music) */
     #clock { font-size: 3.5rem !important; margin-bottom: 5px !important; }
     .weather { font-size: 1.2rem !important; }
     .stat-btn { padding: 8px !important; font-size: 1rem !important; }
     .stat-btn .val { font-size: 1.5rem !important; margin-top: 4px !important; }
 
-    /* Shrink Music Panel to save vertical height */
     .music-panel { gap: 8px !important; }
     .cover-art { width: 110px !important; height: 110px !important; border-width: 1px !important; }
     .seek-wrapper { font-size: 1rem !important; margin-top: 0 !important; }
     .media-row { gap: 10px !important; width: 90% !important; margin-top: 0 !important; }
     .media-btn { width: 50px !important; height: 50px !important; font-size: 1.4rem !important; }
     .media-btn.play { font-size: 1.8rem !important; height: 50px !important; }
-    .circle-btn { top: 10px !important; right: 10px !important; width: 40px !important; height: 40px !important; font-size: 1.2rem !important; }
 
-    /* Flatten the App Row */
     .app-panel { padding: 15px !important; gap: 10px !important; }
     .app-btn { font-size: 2rem !important; border-radius: 10px !important; }
 
-    /* Discord Grid Adjustments */
     .discord-grid { padding: 15px !important; gap: 15px !important; }
     .disc-btn { font-size: 2.5rem !important; padding: 10px !important; gap: 5px !important; }
     .disc-btn span { font-size: 1rem !important; }
 
-    /* Tuck the Toggle Button into the corner */
-    .page-toggle { bottom: 15px !important; right: 15px !important; width: 50px !important; height: 50px !important; font-size: 1.4rem !important; }
+    /* Fix the button overlap in landscape! */
+    .page-toggle { bottom: 15px !important; width: 50px !important; height: 50px !important; font-size: 1.4rem !important; }
+    #btn-page { right: 15px !important; }
+    #btn-fs { right: 75px !important; }
 }
